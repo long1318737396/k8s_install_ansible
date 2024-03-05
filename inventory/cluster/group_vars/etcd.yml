@@ -1,0 +1,5 @@
+ETCD_DATA_DIR: "/data/kubernetes/etcd"
+base_dir: 
+bin_dir:
+cluster_dir:
+ca_dir:

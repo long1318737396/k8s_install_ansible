@@ -1,0 +1,21 @@
+version: '3.1'
+services:
+  nginx:
+    container_name: kubespray-nginx
+    image: docker.io/library/nginx:latest
+    restart: always
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./:/data/
+    ports:
+      - 38088:80
+  kubespray:
+    container_name: kubespray
+    image: registry.cn-hongkong.aliyuncs.com/magictommy/kubespray:v1.29.2
+    restart: always
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - ./:/kubespray

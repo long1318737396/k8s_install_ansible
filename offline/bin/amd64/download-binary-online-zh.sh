@@ -6,7 +6,9 @@ source ../../../conf/config.sh
 exec > >(tee -a "$logfile") 2>&1
 echo "$date_format"
 
+packages_dir="../../../_output"
 
+mkdir -p ${packages_dir}/bin
 # https://github.com/containernetworking/plugins/releases/
 # https://github.com/containerd/containerd/releases/
 # https://github.com/containerd/nerdctl/releases
@@ -52,6 +54,7 @@ hubble_url="https://github.com/cilium/hubble/releases/download/${hubble_version}
 velero_url="https://github.com/vmware-tanzu/velero/releases/download/${velero_version}/velero-${velero_version}-linux-${arch}.tar.gz"
 skopeo_url="https://github.com/lework/skopeo-binary/releases/download/${skopeo_version}/skopeo-linux-${arch}"
 yq_url="https://github.com/mikefarah/yq/releases/download/${yq_version}/yq_linux_${arch}"
+jq_url="https://github.com/jqlang/jq/releases/download/jq-${jq_version}/jq-linux-${arch}"
 # curl  -k -L -C - -o minio  https://dl.min.io/server/minio/release/linux-amd64/minio
 # curl  -k -L -C - -o mc https://dl.min.io/client/mc/release/linux-amd64/mc
 packages=(
@@ -79,11 +82,12 @@ packages=(
   ${base_url}/$velero_url
   ${base_url}/$skopeo_url
   ${base_url}/$yq_url
+  ${base_url}/$jq_url
 )
 
 for package_url in "${packages[@]}"; do
   filename=$(basename "$package_url")
-  if curl  -k -L -C - -o "$filename" "$package_url"; then
+  if curl  -k -L -C - -o ${packages_dir}/bin/"$filename" "$package_url"; then
     echo "Downloaded $filename"
   else
     echo "Failed to download $filename"

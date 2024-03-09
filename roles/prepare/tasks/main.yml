@@ -1,0 +1,7 @@
+- name: 本地解压文件
+  import_role: unarchive.yml
+  delegate_to: localhost
+
+
+- name: 二进制文件的分发
+  import_role: bin.yml

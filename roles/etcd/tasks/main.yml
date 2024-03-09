@@ -1,46 +1,28 @@
-- name: prepare some dirs
-  file: name{{ cluster_dir }}/etcd state=directory mode=0700
+- name: 创建etcd证书目录
+  import_role:
+    name:  create-cert.yml
+  delegate_to: localhost
 
-- name: 本地解压etcd包
-  connection: local
-  unarchive: 
-    src={{ package_base_dir }}/etcd-{{ etcd_version }}-linux-{{ orch_arch }}.tar.gz 
-    dest={{ package_base_dir }}
 
-- name: 下载etcd二进制文件
-  copy: src={{ base_dir }}/bin/{{ item }} dest={{ bin_dir }}/{{ item }} mode=0755
-  with_items:
-  - etcd
-  - etcdctl
-  - etcdutl
-  tags: upgrade_etcd
+- name: 分发etcd证书到各个主机
+  import_role:
+    name:  distribute-cert.yml
 
-- name: 创建etcd证书请求
-  template: src=etcd-csr.json.j2 dest={{ cluster_dir }}/ssl/etcd-csr.json
-  connection: local
-  run_once: true
-  tags: force_change_certs
+- name: 创建etcd配置文件存放目录
+  file:
+    path: "{{ cluster_dir }}/etcd/conf/"
+    state: directory
+    mode: 0700
 
-- name: 创建 etcd证书和私钥
-  shell: "cd {{ cluster_dir }}/ssl && {{ base_dir }}/bin/cfssl gencert \
-        -ca=ca.pem \
-        -ca-key=ca-key.pem \
-        -config=ca-config.json \
-        -profile=kubernetes etcd-csr.json | {{ base_dir }}/bin/cfssljson -bare etcd"
-  connection: local
-  run_once: true
-  tags: force_change_certs
-
-- name: 分发etcd证书相关
-  copy: src={{ cluster_dir }}/ssl/{{ item }} dest={{ ca_dir }}/{{ item }}
-  with_items:
-  - ca.pem
-  - etcd.pem
-  - etcd-key.pem
-  tags: force_change_certs
+- name: 渲染etcd配置文件
+  template:
+    sec: config.yml.j2
+    dest: "{{ cluster_dir }}/etcd/conf/config.yml"
 
 - name: 创建etcd的systemd unit文件
-  template: src=etcd.service.j2 dest=/etc/systemd/system/etcd.service
+  template: 
+    src: etcd-service.j2 
+    dest: /etc/systemd/system/etcd.service
   tags: upgrade_etcd, restart_etcd
 
 - name: 开机启用etcd服务

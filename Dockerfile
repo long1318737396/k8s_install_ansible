@@ -7,8 +7,7 @@ ENV LANG=C.UTF-8 \
 
 WORKDIR /kubespray
 
-RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-    apt-get update -q \
+RUN apt-get update -q \
     && apt-get install -yq --no-install-recommends \
     curl \
     python3 \
@@ -20,11 +19,8 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /var/log/*
 
-RUN --mount=type=bind,source=requirements.txt,target=requirements.txt \
-    --mount=type=cache,sharing=locked,id=pipcache,mode=0777,target=/root/.cache/pip \
-    pip install --no-compile --no-cache-dir -r requirements.txt \
+COPY requirements.txt requirements.txt  \
+    && pip3 install --no-compile --no-cache-dir -r requirements.txt \
     && find /usr -type d -name '*__pycache__' -prune -exec rm -rf {} \;
-
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 CMD ["sleep","infinity"]

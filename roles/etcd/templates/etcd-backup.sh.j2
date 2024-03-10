@@ -40,6 +40,8 @@ sleep 3
 cd \$BACKUP_DIR/../ && ls -lt |awk '{if(NR > '\$KEEPBACKUPNUMBER'){print "rm -rf "\$9}}'|sh
 EOF
 
+chmod +x /usr/local/bin/kube-scripts/etcd-backup.sh
+
 tee /etc/systemd/system/backup-etcd.timer <<EOF
 # /etc/systemd/system/backup-etcd.timer
 [Unit]

@@ -11,11 +11,9 @@
     dest: "{{ cluster_dir }}/etcd/etcd-backup.sh"
   delegate_to: "{{ groups['etcd'][0] }}"
 
-- name: 添加权限
-  file: 
-    path: "{{ cluster_dir }}/etcd/etcd-backup.sh"
-    mode: 0755
+
 
 - name: 执行脚本
   script: "{{ cluster_dir }}/etcd/etcd-backup.sh"
   delegate_to: "{{ groups['etcd'][0] }}"
+

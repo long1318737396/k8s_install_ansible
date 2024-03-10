@@ -1,12 +1,10 @@
 - name: 创建etcd证书目录
-  import_role:
-    name:  create-cert.yml
-  delegate_to: localhost
+  include_tasks:: create-cret.yml
+
 
 
 - name: 分发etcd证书到各个主机
-  import_role:
-    name:  distribute-cert.yml
+  include_tasks:: distribute-cert.yml
 
 - name: 创建etcd配置文件存放目录
   file:
@@ -16,7 +14,7 @@
 
 - name: 渲染etcd配置文件
   template:
-    sec: config.yml.j2
+    src: config.yml.j2
     dest: "{{ cluster_dir }}/etcd/conf/config.yml"
 
 - name: 创建etcd的systemd unit文件
@@ -41,3 +39,9 @@
   retries: 8
   delay: 8
   tags: upgrade_etcd, restart_etcd, force_change_certs
+
+- name: 查看etcd服务状态
+  include_tasks: etcd_status.yml
+
+- name: 备份etcd
+  include_tasks: backup-etcd.yml

@@ -1,12 +1,12 @@
 {
     "CN": "etcd",
     "hosts": [
-        {% for host in groups['etcd'] %}
-            {% if hostvars[host]['ansible_host'] is defined %}
-                "{{ hostvars[host]['ansible_host'] }}",
-            {% endif %}
-            "{{ hostvars[host]['inventory_hostname'] }}",
-        {% endfor %}
+{% for host in groups['etcd'] %}
+    {% if hostvars[host]['ansible_host'] is defined %}
+        "{{ hostvars[host]['ansible_host'] }}",
+        {% endif %}
+        "{{ hostvars[host]['inventory_hostname'] }}",
+{% endfor %}
         "127.0.0.1",
         "0.0.0.0"
     ],

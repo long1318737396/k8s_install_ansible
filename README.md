@@ -4,7 +4,7 @@
 
 ## 部署需求
 
- ansible服务器需要能够操作各个目标主机，需要有root账户的密码 
+ ansible服务器需要能够操作各个目标主机，需要有root账户的密码，其他k8s节点以及harbor服务器需要能够访问通ansible服务器的38088端口，以此分发软件包
 
 ## 1.拷贝软件包到ansible服务器，或者复用harbor服务器
 
@@ -12,6 +12,9 @@
 #1.1 拷贝软件包到ansible服务器，或者复用harbor服务器,然后解压压缩包
 tar -zxvf k8s_install_ansible.tar.gz
 cd k8s_install_ansible
+
+#1.2 再次拷贝软件包到本地目录下，因为还需要通过代理分发到其他主机上
+cp ../k8s_install_ansible.tar.gz .
 ```
 
 ## 2.启动ansible
@@ -56,4 +59,16 @@ docker-compose ps
 source conf/config.sh
 echo "$harbor_ip $harbor_hostname" >> /etc/hosts
 docker login $harbor_hostname --username admin --password $harbor_admin_password
+```
+
+## 环境安装
+
+```bash
+ansible-playbook -i inventory/cluster/inventory.ini playbooks/prepare.yml -e@inventory/cluster/group_vars/all/all.yml
+```
+
+## etcd安装
+
+```bash
+ansible-playbook -i inventory/cluster/inventory.ini playbooks/etcd-install.yml -e@inventory/cluster/group_vars/all/all.yml
 ```

@@ -1,0 +1,11 @@
+- name: 环境配置
+  import_playbook: set-hostname.yml
+
+- name: 分发自定义 hosts
+  import_platbook: set-hosts.yml
+
+- hosts:
+  - k8s_cluster
+  - etcd
+  roles:
+  - prepare

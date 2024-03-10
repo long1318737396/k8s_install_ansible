@@ -1,6 +1,6 @@
-name: '{{ hostvars[inventory_hostname]}}'
 data-dir: {{ etcd_data_dir }}
 wal-dir: {{ etcd_data_dir }}/wal
+name: '{{  hostvars[inventory_hostname]['inventory_hostname']  }}'
 snapshot-count: 50000
 heartbeat-interval: 100
 election-timeout: 1000
@@ -29,16 +29,16 @@ proxy-dial-timeout: 1000
 proxy-write-timeout: 5000
 proxy-read-timeout: 0
 client-transport-security:
-  cert-file: '${etcd_ssldir}/ssl/etcd-server.pem'
-  key-file: '${etcd_ssldir}/ssl/etcd-server-key.pem'
+  cert-file: '{{ cluster_dir }}/etcd/ssl/etcd-server.pem'
+  key-file: '{{ cluster_dir }}/etcd/ssl/etcd-server-key.pem'
   client-cert-auth: true
-  trusted-ca-file: '${etcd_ssldir}/ssl/etcd-ca.pem'
+  trusted-ca-file: '{{ cluster_dir }}/etcd/ssl/etcd-ca.pem'
   auto-tls: true
 peer-transport-security:
-  cert-file: '${etcd_ssldir}/ssl/etcd-server.pem'
-  key-file: '${etcd_ssldir}/ssl/etcd-server-key.pem'
+  cert-file: '{{ cluster_dir }}/etcd/ssl/etcd-server.pem'
+  key-file: '{{ cluster_dir }}/etcd/ssl/etcd-server-key.pem'
   client-cert-auth: true
-  trusted-ca-file: '${etcd_ssldir}/ssl/etcd-ca.pem'
+  trusted-ca-file: '{{ cluster_dir }}/etcd/ssl/etcd-ca.pem'
   auto-tls: true
 debug: false
 log-package-levels:

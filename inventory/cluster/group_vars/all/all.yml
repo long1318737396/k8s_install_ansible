@@ -1,7 +1,7 @@
 orch_arch: amd64
 orch_platform: x86_64
-etcd_data_dir: '/data/kubernetes/etcd/{{ orch_arch }}'
-package_base_dir: /kubespray/offline/bin/
+etcd_data_dir: '/data/kubernetes/etcd'
+package_base_dir: "/kubespray/offline/bin/{{ orch_arch }}"
 bin_dir: /usr/local/bin
 cluster_dir: /etc/kubernetes
 etcd_dir: '{{ cluster_dir }}/etcd'

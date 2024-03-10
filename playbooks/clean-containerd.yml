@@ -7,4 +7,4 @@
         dest: /tmp
         mode: 0755  # 设置脚本的执行权限
     - name: Execute the script on the remote host
-      command: /tmp/clean.sh
+      shell: bash /tmp/clean.sh

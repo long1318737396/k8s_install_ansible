@@ -1,10 +1,10 @@
 - name: 创建etcd证书目录
-  include_tasks:: create-cret.yml
+  include_tasks: create-cret.yml
 
 
 
 - name: 分发etcd证书到各个主机
-  include_tasks:: distribute-cert.yml
+  include_tasks: distribute-cert.yml
 
 - name: 创建etcd配置文件存放目录
   file:

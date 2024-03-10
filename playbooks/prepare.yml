@@ -2,7 +2,7 @@
   import_playbook: set-hostname.yml
 
 - name: 分发自定义 hosts
-  import_platbook: set-hosts.yml
+  import_playbook: set-hosts.yml
 
 - hosts:
   - k8s_cluster

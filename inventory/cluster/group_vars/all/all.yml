@@ -1,8 +1,26 @@
+#平台配置
 orch_arch: amd64
 orch_platform: x86_64
+
+#etcd配置
+##etcd的存储目录
 etcd_data_dir: '/data/kubernetes/etcd'
-package_base_dir: "/kubespray/offline/bin/{{ orch_arch }}"
-bin_dir: /usr/local/bin
-cluster_dir: /etc/kubernetes
+##存放etcd的证书和配置文件的目录
 etcd_dir: '{{ cluster_dir }}/etcd'
+##etcd的备份目录
 etcd_backup_dir: /data/backup/k8s/etcd
+
+
+
+
+yum_online_install: true
+
+
+
+#基础信息配置
+## 离线安装包目录
+package_base_dir: "/kubespray/offline/bin/{{ orch_arch }}"
+## 二进制分发目录
+bin_dir: /usr/local/bin
+## 配置文件分发目录
+cluster_dir: /etc/kubernetes

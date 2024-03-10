@@ -61,14 +61,22 @@ echo "$harbor_ip $harbor_hostname" >> /etc/hosts
 docker login $harbor_hostname --username admin --password $harbor_admin_password
 ```
 
-## 环境安装
+## 4.安装k8s
+环境准备
 
 ```bash
-ansible-playbook -i inventory/cluster/inventory.ini playbooks/prepare.yml -e@inventory/cluster/group_vars/all/all.yml
+#4.1 vi inventory/cluster/inventory.ini 配置连接K8s的主机名、IP地址、连接用户、密码
+
+#4.2 vi inventory/cluster/group_vars/all/all.yml 配置K8s集群相关的环境变量
+```
+安装初始化参数
+
+```bash
+ansible-playbook -i inventory/cluster/inventory.ini playbooks/prepare.yml
 ```
 
 ## etcd安装
 
 ```bash
-ansible-playbook -i inventory/cluster/inventory.ini playbooks/etcd-install.yml -e@inventory/cluster/group_vars/all/all.yml
+ansible-playbook -i inventory/cluster/inventory.ini playbooks/etcd-install.yml
 ```

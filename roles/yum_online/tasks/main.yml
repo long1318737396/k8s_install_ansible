@@ -1,0 +1,6 @@
+# 基础软件在线安装
+- include_tasks: centos.yml
+  when: ansible_distribution is regex ("Rocky|openEuler|CentOS|OracleLinux|RedHat|Anolis|Kylin.*")
+
+- include_tasks: debian.yml
+  when: ansible_distribution in [ 'Ubuntu','Debian' ]

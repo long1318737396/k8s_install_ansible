@@ -9,3 +9,8 @@
   - etcd
   roles:
   - prepare
+
+- hosts:
+  - k8s_cluster
+  roles:
+  - init_kernel

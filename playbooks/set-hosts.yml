@@ -1,5 +1,5 @@
 - name: 分发自定义 hosts
-  hosts: all
+  hosts: k8s_cluster
   tasks:
     - name: 构建 hosts 条目
       set_fact:

@@ -12,7 +12,11 @@
     var: etcd_status.stdout_lines
 
 - name: 查看集群状态
-  shell: "source /etc/profile.d/etcdctl.sh; etcdctl member list --write-out=table"
+  shell: "{{ bin_dir }}/etcdctl \
+        --cacert={{ cluster_dir }}/etcd/ssl/etcd-ca.pem \
+        --cert={{ cluster_dir }}/etcd/ssl/etcd-server.pem \
+        --key={{ cluster_dir }}/etcd/ssl/etcd-server-key.pem \
+        --endpoints=https://127.0.0.1:2379  member list --write-out=table"
   register: etcd_cluster_status
 
 - name: 打印etcd集群状态

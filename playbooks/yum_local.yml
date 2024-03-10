@@ -1,5 +1,0 @@
-- hosts: 
-  - k8s_cluster
-  roles:
-  - yum_online
-  when: yum_online_install == true

@@ -61,7 +61,7 @@ echo "$harbor_ip $harbor_hostname" >> /etc/hosts
 docker login $harbor_hostname --username admin --password $harbor_admin_password
 ```
 
-## 4.安装k8s
+## 4.基础环境准备
 环境准备
 
 ```bash
@@ -69,14 +69,38 @@ docker login $harbor_hostname --username admin --password $harbor_admin_password
 
 #4.2 vi inventory/cluster/group_vars/all/all.yml 配置K8s集群相关的环境变量
 ```
-安装初始化参数
+安装所需的软件
+如果是在线安装则需将vi inventory/cluster/group_vars/all/all.yml 配置中的yum_online_install 值设置为true
+```bash
+ansible-playbook -i inventory/cluster/inventory.ini playbooks/yum_online.yml
+```
+如果是离线安装则需要手动在k8s节点服务器上安装以下软件,本脚本集成了这些软件包，则需将vi inventory/cluster/group_vars/all/all.yml 配置中的yum_online_install 值设置为false
+但只适用于centos8系列，因为是基于centos8提取的rpm包，其他系统请自行安装，并不保证100%会安装成功
+如果安装失败则需要手动安装
+```bash
+Centos
 
+vim
+wget
+conntrack
+socat
+ipvsadm 
+ipset
+telnet
+nfs-utils
+unzip
+bash-completion
+```
+
+分发二进制文件到k8s集群的各个节点上
 ```bash
 ansible-playbook -i inventory/cluster/inventory.ini playbooks/prepare.yml
 ```
 
-## etcd安装
+## 5.etcd安装
 
 ```bash
 ansible-playbook -i inventory/cluster/inventory.ini playbooks/etcd-install.yml
 ```
+
+## k8s安装

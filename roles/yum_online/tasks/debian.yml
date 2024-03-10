@@ -10,6 +10,7 @@
     - iotop
     - sysstat
     - ipvsadm                     # ipvs 模式需要
+    - iptables
     - conntrack                   # network connection cleanup 用到
     - net-tools
     - nfs-common                  # 挂载nfs 共享文件需要 (创建基于 nfs的PV 需要)

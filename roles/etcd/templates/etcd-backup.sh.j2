@@ -24,20 +24,20 @@ ETCDCTL_CERT="{{ cluster_dir }}/etcd/ssl/etcd-server.pem"
 ETCDCTL_KEY="{{ cluster_dir }}/etcd/ssl/etcd-server-key.pem"
 ETCDCTL_CA_FILE="{{ cluster_dir }}/etcd/ssl/etcd-ca.pem"
 
-[ ! -d $BACKUP_DIR ] && mkdir -p $BACKUP_DIR
+[ ! -d \$BACKUP_DIR ] && mkdir -p \$BACKUP_DIR
 
 sleep 3
 
 {
-export ETCDCTL_API=3;$ETCDCTL_PATH --endpoints="$ENDPOINTS" snapshot save $BACKUP_DIR/snapshot.db \
-                                   --cacert="$ETCDCTL_CA_FILE" \
-                                   --cert="$ETCDCTL_CERT" \
-                                   --key="$ETCDCTL_KEY"
+export ETCDCTL_API=3;\$ETCDCTL_PATH --endpoints="\$ENDPOINTS" snapshot save \$BACKUP_DIR/snapshot.db \
+                                   --cacert="\$ETCDCTL_CA_FILE" \
+                                   --cert="\$ETCDCTL_CERT" \
+                                   --key="\$ETCDCTL_KEY"
 } > /dev/null 
 
 sleep 3
 
-cd $BACKUP_DIR/../ && ls -lt |awk '{if(NR > '$KEEPBACKUPNUMBER'){print "rm -rf "$9}}'|sh
+cd \$BACKUP_DIR/../ && ls -lt |awk '{if(NR > '\$KEEPBACKUPNUMBER'){print "rm -rf "\$9}}'|sh
 EOF
 
 tee /etc/systemd/system/backup-etcd.timer <<EOF

@@ -14,7 +14,7 @@
     with_items:
     - "{{ etcd_dir }}"
     - "{{ etcd_data_dir }}"
-    - "{{ etcd_bakup_dir  }}"
+    - "{{ etcd_backup_dir  }}"
     - "/etc/systemd/system/etcd.service"
     - "/etc/profile.d/etcdctl.sh"
     - "/usr/local/bin/kube-scripts/etcd-backup.sh"

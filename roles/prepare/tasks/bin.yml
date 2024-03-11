@@ -49,6 +49,12 @@
   - containerd.service
   - stargz-snapshotter.service
 
+
+- name: 分发cni插件
+  copy:
+    src: "{{ package_base_dir }}/nerdctl_full/libexec/cni"
+    dest: /opt/
+    
 - name: 分发crictl
   copy:
     src: "{{ package_base_dir }}/crictl"
